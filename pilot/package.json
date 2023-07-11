@@ -1,8 +1,8 @@
 {
-  "name": "airline-system",
+  "name": "pilot",
   "version": "1.0.0",
   "description": "",
-  "main": "event.js",
+  "main": "pilot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1"
   }
 }
