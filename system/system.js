@@ -1,5 +1,7 @@
 const port = 4001
 const io = require('socket.io')(port)
+const uuid = require('uuid').v4
+
 
 let obj = {
      event: 'new-flight',
@@ -12,34 +14,47 @@ let obj = {
  }
 }
 
+let queue = {
+     flights : {}
+}
 io.on('connection' , socket =>{
-     console.log('soket id is : ',socket.id);
+     // console.log('soket id is : ',socket.id);
 
      socket.on('controls' , (payload) =>{
      setInterval(() =>{
-          io.emit('newFlight' , payload )
-          console.log(`Flight : ` , payload); 
+          let id = uuid()
+          io.emit('newFlight' , id )
+          queue.flights[id] = payload
+          console.log('newFlight' , queue); 
      },10000)
      })
+
 })
 
 const airline = io.of('/airline')
 
 airline.on('connection' , (socket) =>{
-     console.log('from airline');
-     setInterval(() =>{
-          socket.emit('pilot' , obj )
-     },10000)
 
-     socket.on("took-off" ,(payload) =>{
-          payload.event = 'took_off'
-          console.log('Flight : ' , payload);
-     })
-     
-     socket.on('Arrived' , (payload) =>{
-          payload.event = 'Arrived'
-          console.log('Flight : ' , payload);
-          io.emit('thanks' , payload)
+          setInterval(() =>{
+               socket.emit('pilot' , queue )
+          },10000)
+
+     socket.on('get-all' , () =>{
+
+          socket.on("took-off" ,(payload) =>{
+               console.log('took_off',payload);
+          })
+          
+          socket.on('Arrived' , (payload) =>{
+               console.log('Arrived',payload);
+               io.emit('thanks' , payload)
+
+
+               let dele = Object.keys(payload.flights).shift()
+               
+               delete queue.flights[dele]
+          })
+
      })
 })
 

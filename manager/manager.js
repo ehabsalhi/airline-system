@@ -5,12 +5,12 @@ const socket = io.connect(host)
 
 
 socket.on('newFlight' , (payload) =>{
-     console.log(`Manager : new flight with ID : ${payload.Details.flightID} has been scheduled.`); 
+     console.log(`Manager : new flight with ID : ${payload} has been scheduled.`); 
 
 })
 
 socket.on('thanks' , payload =>{
-     console.log(`Manager: we’re greatly thankful for the amazing flight, ${payload.Details.pilot}`);
+     console.log(`Manager: we’re greatly thankful for the amazing flight, ${payload}`);
 
 })
 
