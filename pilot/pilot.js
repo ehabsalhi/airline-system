@@ -6,16 +6,18 @@ const socket = io.connect(host)
 
 socket.on("pilot" ,(payload) =>{
      
-     socket.emit('get-all' ,payload )
      let dele = Object.keys(payload.flights).shift()
+     // socket.emit('get-all' ,payload )
+
           setTimeout(() =>{
+               
                console.log(`Pilot:Sorry i didn't catch this flight ID : ${dele} `);
                console.log(`Pilot: flight with ID ${dele} took-off`);
-               socket.emit('took-off' , payload)
+               socket.emit('took-off' , payload , dele)
           } , 4000)
           setTimeout(() =>{
                console.log(`Pilot: flight with ID ${dele} Arrived`);
-               socket.emit('Arrived' , payload)
+               socket.emit('Arrived' , payload , dele)
           
           },7000)
 

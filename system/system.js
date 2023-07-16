@@ -26,6 +26,7 @@ io.on('connection' , socket =>{
           io.emit('newFlight' , id )
           queue.flights[id] = payload
           console.log('newFlight' , queue); 
+          // console.log('newFlight' , queue.flights[id]); 
      },10000)
      })
 
@@ -39,22 +40,22 @@ airline.on('connection' , (socket) =>{
                socket.emit('pilot' , queue )
           },10000)
 
-     socket.on('get-all' , () =>{
+     // socket.on('get-all' , () =>{
 
-          socket.on("took-off" ,(payload) =>{
-               console.log('took_off',payload);
+          socket.on("took-off" ,(payload , id) =>{
+               console.log('took_off',id ,payload.flights[id]);
           })
           
-          socket.on('Arrived' , (payload) =>{
-               console.log('Arrived',payload);
-               io.emit('thanks' , payload)
-
+          socket.on('Arrived' , (payload, id) =>{
+               console.log('Arrived', id,payload.flights[id]);
+               let pilot = payload.flights[id].Details.pilot
+               io.emit('thanks' ,pilot)
 
                let dele = Object.keys(payload.flights).shift()
                
                delete queue.flights[dele]
           })
 
-     })
+     // })
 })
 

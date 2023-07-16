@@ -13,7 +13,6 @@ let obj = {
      airLine: 'Royal Jordanian Airlines',
      destination: 'Manchester, UK',
      pilot: 'Jane doe',
-     flightID: 'ds7g86sa8v87dsv60v876d'
  }
 }
 
